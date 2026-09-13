@@ -1,0 +1,15 @@
+name: ItemsPlugin
+version: 1.0.0
+main: com.itemsplugin.ItemsPlugin
+description: "Плагин управления предметами с тегами и хранилищем"
+api-version: 1.18
+authors:
+  - Igor1944
+
+commands:
+  items:
+    description: "Открыть меню управления предметами"
+    usage: "/items"
+  chest:
+    description: "Открыть персональное хранилище"
+    usage: "/chest"

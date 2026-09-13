@@ -1,0 +1,30 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.class
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project
+logs/
+*.log
+build/
+dist/
+
+# Minecraft
+*.mcworld
+*.mcstructure
+world/

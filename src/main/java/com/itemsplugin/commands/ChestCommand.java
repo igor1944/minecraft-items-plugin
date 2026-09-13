@@ -23,8 +23,6 @@ public class ChestCommand implements CommandExecutor {
         }
         
         Player player = (Player) sender;
-        
-        // Открытие персонального хранилища
         ChestGUI gui = new ChestGUI(plugin, player);
         gui.openChest();
         
