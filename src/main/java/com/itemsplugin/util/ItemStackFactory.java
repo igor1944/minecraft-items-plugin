@@ -65,11 +65,15 @@ public final class ItemStackFactory {
     public static void updateDurability(ItemsPlugin plugin, ItemStack stack, CustomItem source, int current) {
         CustomItem display = source.copy();
         display.setCurrentDurability(current);
-        int amount = stack.getAmount();
-        ItemStack replacement = create(plugin, display);
-        stack.setType(replacement.getType());
-        stack.setItemMeta(replacement.getItemMeta());
-        stack.setAmount(amount);
+        ItemMeta meta = stack.getItemMeta();
+        if (meta == null) {
+            return;
+        }
+        meta.setDisplayName(display.getDisplayName());
+        meta.setLore(lore(display));
+        setData(plugin, meta, display.getId(), display.getMaxDurability(), display.getCurrentDurability());
+        // Меняем только описание и PDC, поэтому зачарования и прочие свойства игрока сохраняются.
+        stack.setItemMeta(meta);
     }
 
     private static void setData(ItemsPlugin plugin, ItemMeta meta, String id, int max, int current) {
