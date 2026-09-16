@@ -1,47 +1,63 @@
 package com.itemsplugin.models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+/** Персональное хранилище одного игрока. Количество предметов не ограничено. */
 public class PlayerStorage {
-    
-    private String playerId;
-    private List<CustomItem> items;
-    private static final int MAX_ITEMS = 54;
-    
+
+    private final String playerId;
+    private final List<CustomItem> items;
+
     public PlayerStorage(String playerId) {
         this.playerId = playerId;
         this.items = new ArrayList<>();
     }
-    
+
     public String getPlayerId() {
         return playerId;
     }
-    
+
     public List<CustomItem> getItems() {
         return items;
     }
-    
+
     public void addItem(CustomItem item) {
-        if (items.size() < MAX_ITEMS) {
+        if (item != null) {
             items.add(item);
         }
     }
-    
+
+    public CustomItem removeItem(int index) {
+        if (index < 0 || index >= items.size()) {
+            return null;
+        }
+        return items.remove(index);
+    }
+
     public void removeItem(CustomItem item) {
         items.remove(item);
     }
-    
+
     public void removeItemById(String itemId) {
         items.removeIf(item -> item.getId().equals(itemId));
     }
-    
-    public CustomItem getItemById(String itemId) {
-        return items.stream()
-                .filter(item -> item.getId().equals(itemId))
-                .findFirst()
-                .orElse(null);
+
+    public void removeTagById(String tagId) {
+        for (CustomItem item : items) {
+            item.removeTagById(tagId);
+        }
     }
-    
+
+    public CustomItem getItemById(String itemId) {
+        for (CustomItem item : items) {
+            if (item.getId().equals(itemId)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public List<CustomItem> getItemsByTag(String tagId) {
         List<CustomItem> result = new ArrayList<>();
         for (CustomItem item : items) {
@@ -54,16 +70,18 @@ public class PlayerStorage {
         }
         return result;
     }
-    
+
     public int getItemCount() {
         return items.size();
     }
-    
+
+    /** Оставлено для совместимости с прежним API плагина. */
     public boolean hasSpace() {
-        return items.size() < MAX_ITEMS;
+        return true;
     }
-    
+
+    /** Хранилище бесконечное, поэтому свободное место не заканчивается. */
     public int getAvailableSpace() {
-        return MAX_ITEMS - items.size();
+        return Integer.MAX_VALUE;
     }
 }
